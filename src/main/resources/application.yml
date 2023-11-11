@@ -1,0 +1,3 @@
+# Discord key
+discord:
+  token: ${DISCORD_TOKEN}
