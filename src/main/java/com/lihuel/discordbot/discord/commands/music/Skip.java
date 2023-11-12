@@ -2,19 +2,14 @@ package com.lihuel.discordbot.discord.commands.music;
 
 import com.lihuel.discordbot.discord.commands.Command;
 import com.lihuel.discordbot.discord.lavaplayer.PlayerManager;
-import com.lihuel.discordbot.discord.lavaplayer.events.TrackStart;
 import com.lihuel.discordbot.discord.utils.embeds.AlertEmbed;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 @Component

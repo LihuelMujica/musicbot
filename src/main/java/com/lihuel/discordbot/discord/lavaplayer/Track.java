@@ -5,13 +5,10 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 @Data
 @AllArgsConstructor
