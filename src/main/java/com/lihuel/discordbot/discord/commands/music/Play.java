@@ -80,6 +80,7 @@ public class Play implements Command {
 
         if(!selfVoiceState.inAudioChannel()) {
             event.getGuild().getAudioManager().openAudioConnection(memberVoiceState.getChannel());
+            event.getGuild().getAudioManager().setSelfDeafened(true);
         } else {
             if(selfVoiceState.getChannel() != memberVoiceState.getChannel()) {
                 applicationContext.publishEvent(new SimpleError(event, "Tienes que estar en el mismo canal de voz que yo"));
