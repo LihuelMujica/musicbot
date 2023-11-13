@@ -125,4 +125,15 @@ public class PlayerManager {
         queue.addAll(guildMusicManager.getTrackScheduler().getQueue().stream().map(audioTrack -> (Track) audioTrack.getUserData()).toList());
         return queue;
     }
+
+    public boolean stop(SlashCommandInteractionEvent event) {
+        TrackScheduler trackScheduler = getGuildMusicManager(event.getGuild()).getTrackScheduler();
+        if (trackScheduler.getCurrentTrack() == null) {
+            applicationContext.publishEvent(new CustomError("No hay canciones en la cola", event));
+            return false;
+        }
+
+        trackScheduler.stop();
+        return true;
+    }
 }

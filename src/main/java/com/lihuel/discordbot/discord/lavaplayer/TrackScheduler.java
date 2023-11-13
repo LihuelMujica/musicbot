@@ -108,6 +108,11 @@ public class TrackScheduler extends AudioEventAdapter {
         }
     }
 
+    public void stop() {
+        queue.clear();
+        player.stopTrack();
+    }
+
 
 
 

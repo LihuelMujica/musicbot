@@ -100,6 +100,22 @@ public class MusicEmbeds {
         return embeds;
     }
 
+    public static MessageEmbed stopMessage() {
+        return new EmbedBuilder()
+                .setTitle("⏹ Reproducción parada")
+                .setDescription("La reproducción ha sido parada y se ha limpiado la play list")
+                .setColor(Color.blue)
+                .build();
+    }
+
+    public MessageEmbed pauseMessage() {
+        return new EmbedBuilder()
+                .setTitle("⏸ Reproducción pausada")
+                .setDescription("La reproducción ha sido pausada")
+                .setColor(Color.blue)
+                .build();
+    }
+
     private static String shortTitle(String title) {
         if (title.length() > 27) {
             return title.substring(0, 27) + "...";
