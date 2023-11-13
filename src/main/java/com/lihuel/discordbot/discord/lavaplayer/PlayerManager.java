@@ -6,6 +6,7 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -15,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -108,5 +111,18 @@ public class PlayerManager {
         }
         trackScheduler.nextTrack();
         applicationContext.publishEvent(new SkipTrack(event));
+    }
+
+    public List<Track> getQueue(Guild guild, SlashCommandInteractionEvent event) {
+        GuildMusicManager guildMusicManager = getGuildMusicManager(guild);
+        List<Track> queue = new ArrayList<>();
+        AudioTrack currentTrack = guildMusicManager.getTrackScheduler().getCurrentTrack();
+        if (currentTrack == null) {
+            applicationContext.publishEvent(new CustomError("No hay canciones en la cola", event));
+            return queue;
+        }
+        queue.add((Track) guildMusicManager.getTrackScheduler().getCurrentTrack().getUserData());
+        queue.addAll(guildMusicManager.getTrackScheduler().getQueue().stream().map(audioTrack -> (Track) audioTrack.getUserData()).toList());
+        return queue;
     }
 }
