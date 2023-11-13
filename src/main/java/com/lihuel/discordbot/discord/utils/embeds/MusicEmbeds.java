@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -57,7 +58,7 @@ public class MusicEmbeds {
      * @param tracks
      * @return List of embeds. Each embed contains 10 tracks
      */
-    public static MessageEmbed displayPlaylist(List<Track> tracks, String playlistUrl) {
+    public static MessageEmbed playlistAdded(List<Track> tracks, String playlistUrl) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setTitle("Playlist agregada");
         embedBuilder.setDescription(tracks.get(0).getEvent().getMember().getAsMention() + " ha añadido " + "[`" + tracks.size() + " canciones a la cola`]("+playlistUrl+")");
@@ -65,6 +66,45 @@ public class MusicEmbeds {
         embedBuilder.setThumbnail(getThumbnail(tracks.get(0)));
         embedBuilder.setFooter("by @lihuel2000 md para informar de bugs y suggerencias :)", "https://cdn.discordapp.com/avatars/353729891872669696/bd25303305cd4eb01376e4667fb0530b.webp?size=128");
         return embedBuilder.build();
+    }
+
+    /**
+     * Display a playlist in a list of embeds
+     * @param tracks
+     * @return List of embeds. Each embed contains 10 tracks
+     */
+    public static List<MessageEmbed> displayPlaylist(List<Track> tracks) {
+        Track firstTrack = tracks.get(0);
+        tracks.remove(0);
+        List<List<Track>> partitions = new ArrayList<>();
+        for (int i = 0; i < tracks.size(); i += 10) {
+            partitions.add(tracks.subList(i, Math.min(i + 10, tracks.size())));
+        }
+
+        List<MessageEmbed> embeds = new ArrayList<>();
+        int i = 1;
+        for (List<Track> partition : partitions) {
+            EmbedBuilder embedBuilder = new EmbedBuilder();
+            embedBuilder.setTitle("Playlist");
+            embedBuilder.addField("Reproduciendo ahora", "[" + firstTrack.getInfo().title + "](" + firstTrack.getInfo().uri + ")", false);
+            StringBuilder canciones = new StringBuilder();
+            for (Track track : partition) {
+                canciones.append("`").append(i).append(")` [").append(shortTitle(track.getInfo().title)).append("](").append(track.getInfo().uri).append(") [").append(formatTrackLength(track.getInfo().length)).append("]\n");
+                i++;
+            }
+            embedBuilder.addField("Canciones", canciones.toString(), false);
+            embedBuilder.setColor(Color.blue);
+            embedBuilder.setFooter((tracks.size() + 1) + " canciones en total");
+            embeds.add(embedBuilder.build());
+        }
+        return embeds;
+    }
+
+    private static String shortTitle(String title) {
+        if (title.length() > 27) {
+            return title.substring(0, 27) + "...";
+        }
+        return title;
     }
 
     private static String getThumbnail(Track track) {

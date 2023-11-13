@@ -55,7 +55,7 @@ public class MusicNotifications {
     @EventListener
     public void onPlaylistLoaded(PlaylistLoaded event) {
         SlashCommandInteractionEvent interactionEvent = event.getPlaylist().get(0).getEvent();
-        interactionEvent.replyEmbeds(MusicEmbeds.displayPlaylist(event.getPlaylist(), event.getPlaylistUrl())).queue();
+        interactionEvent.replyEmbeds(MusicEmbeds.playlistAdded(event.getPlaylist(), event.getPlaylistUrl())).queue();
     }
 
     @EventListener
