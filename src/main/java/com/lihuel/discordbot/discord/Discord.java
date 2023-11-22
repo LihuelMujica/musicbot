@@ -2,6 +2,7 @@ package com.lihuel.discordbot.discord;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +20,9 @@ public class Discord {
     @Bean
     public JDA jda() {
         try {
-            JDA jda = JDABuilder.createDefault(token).build();
+            JDA jda = JDABuilder.createDefault(token)
+                    .enableIntents(GatewayIntent.MESSAGE_CONTENT)
+                    .build();
             logger.info("JDA successfully created");
             return jda;
         } catch (Exception e) {
